@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="main.css">
+
+</head>
+
+<body>
+    <div id="myDIV" class="header">
+        <h2 style="margin:5px">My To Do List</h2>
+        <input type="text" id="myInput" placeholder="Title...">
+        <span onclick="addTodo()" class="addBtn">Add</span>
+    </div>
+
+    <ul id="toDoList">
+
+    </ul>
+</body>
+
+<script>
+    function addTodo() {
+        const inputValue = document.getElementById("myInput").value;
+        let li = document.createElement("li");
+        let txt = document.createTextNode(inputValue)
+        li.appendChild(txt)
+        let span = document.createElement("span")
+        let spanText = document.createTextNode("\u00D7")
+        span.appendChild(spanText)
+        span.className = "close"
+        li.appendChild(span)
+        span.onclick = function() {
+            this.parentElement.style.display = "none"
+        }
+        if (inputValue === " ") {
+            alert("empty")
+        } else {
+            document.getElementById("toDoList").appendChild(li);
+        }
+        document.getElementById("myInput").value = " "
+    };
+
+    const list = document.querySelector("ul");
+    list.addEventListener('click', (ev) => {
+        if (ev.target.tagName === 'LI') {
+            ev.target.classList.toggle("checked");
+        }
+    });
+
+    const newList = fetch("https://jsonplaceholder.typicode.com/todos")
+    newList
+        .then(data => data.json())
+        .then((element) => {
+            element.forEach((user) => {
+                document.getElementById("toDoList").innerHTML += todo(user)
+            })
+
+            function todo(list) {
+                let span = document.createElement("span")
+                let spanText = document.createTextNode("\u00D7")
+                span.appendChild(spanText)
+                span.className = "close"
+                li.appendChild(span)
+                span.onclick = function() {
+                    this.parentElement.style.display = "none"
+                }
+                return `<li id="list class="close">${list.title}</li>`
+            }
+        });
+</script>
+
+</html>
